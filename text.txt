@@ -1,0 +1,8 @@
+We add boxShadows for android platform using the elevation property. For example: "elavation: 4"
+
+However, the elevation property is an android based styling property and it doesen't apply to ios platform.
+To add shadows in ios, we use a set of property: shadowColor, shadowOffset, shadowRadius, shadowOpacity
+The shadowColor is used to specialize the color of the shadow shadow
+We use the shadowOffset to specify the direction of the shadow... For Example: shadowOffset: {width: 0, height: 2}. The shadow would be pushed towards the bottom by 2px
+shadowRadius specify how much the shadow should expand
+Lastly, the shadowOpacity specifies how transparent the shadow should be
