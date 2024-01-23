@@ -1,24 +1,31 @@
 import { Pressable, StyleSheet, Text } from "react-native";
 
-export default function Button({ title, onClick }) {
+export default function Button({ title, onClick, style }) {
   return (
     <Pressable
       android_ripple={{ color: "rgba(0,0,0,0.5)" }}
-      style={({ pressed }) => {
-        return pressed ? { ...styles.overlay, opacity: 0.5 } : styles.overlay;
-      }}
+      style={({ pressed }) =>
+        pressed
+          ? [styles.overlay, styles.pressed, style]
+          : [styles.overlay, style]
+      }
       onPress={onClick}
     >
-      <Text>{title}</Text>
+      <Text style={styles.textStyle}>{title}</Text>
     </Pressable>
   );
 }
 
 const styles = StyleSheet.create({
   overlay: {
-    paddingHorizontal: 25,
-    paddingVertical: 14,
+    paddingHorizontal: 20,
+    paddingVertical: 10,
     borderRadius: 25,
-    backgroundColor: "violet",
+  },
+  pressed: {
+    opacity: 0.6,
+  },
+  textStyle: {
+    textAlign: "center",
   },
 });
