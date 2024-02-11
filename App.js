@@ -1,6 +1,6 @@
 // import { StatusBar } from "expo-status-bar";
 import { useState } from "react";
-import { StyleSheet, ImageBackground } from "react-native";
+import { StyleSheet, ImageBackground, SafeAreaView } from "react-native";
 
 // Screens
 import HomeScreen from "./screens/HomeScreen";
@@ -21,17 +21,19 @@ export default function App() {
         resizeMode="cover"
         imageStyle={styles.imageStyle}
       >
-        {selectedScreen === "Home" && (
-          <HomeScreen
-            navigate={(value) => {
-              setEnteredNumber(value);
-              setSelectedScreen("Game");
-            }}
-          />
-        )}
-        {selectedScreen === "Game" && (
-          <GameScreen enteredNumber={enteredNumber} />
-        )}
+        <SafeAreaView style={styles.container}>
+          {selectedScreen === "Home" && (
+            <HomeScreen
+              navigate={(value) => {
+                setEnteredNumber(value);
+                setSelectedScreen("Game");
+              }}
+            />
+          )}
+          {selectedScreen === "Game" && (
+            <GameScreen enteredNumber={enteredNumber} />
+          )}
+        </SafeAreaView>
       </ImageBackground>
     </LinearGradient>
   );
