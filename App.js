@@ -1,17 +1,29 @@
 // import { StatusBar } from "expo-status-bar";
 import { useState } from "react";
 import { StyleSheet, ImageBackground, SafeAreaView } from "react-native";
+import { LinearGradient } from "expo-linear-gradient";
+import { useFonts } from "expo-font";
+// import AppLoading from "expo-app-loading";
 
 // Screens
 import HomeScreen from "./screens/HomeScreen";
-
-// Linear Gradient
-import { LinearGradient } from "expo-linear-gradient";
 import GameScreen from "./screens/GameScreen";
+import GameOverScreen from "./screens/GameOverScreen";
+import LoadingScreen from "./screens/LoadingScreen";
 
 export default function App() {
   const [selectedScreen, setSelectedScreen] = useState("Home");
   const [enteredNumber, setEnteredNumber] = useState(null);
+  const [computerLogs, setComputerLogs] = useState([]);
+
+  const [fontsLoaded] = useFonts({
+    "open-sans-regular": require("./assets/fonts/OpenSans-Regular.ttf"),
+    "open-sans-bold": require("./assets/fonts/OpenSans-Bold.ttf"),
+  });
+
+  if (!fontsLoaded) {
+    return <LoadingScreen />;
+  }
 
   return (
     <LinearGradient colors={["#5a045a", "violet"]} style={styles.container}>
@@ -31,7 +43,20 @@ export default function App() {
             />
           )}
           {selectedScreen === "Game" && (
-            <GameScreen enteredNumber={enteredNumber} />
+            <GameScreen
+              enteredNumber={enteredNumber}
+              navigate={(logs) => {
+                setComputerLogs(logs);
+                setSelectedScreen("GameOver");
+              }}
+            />
+          )}
+          {selectedScreen === "GameOver" && (
+            <GameOverScreen
+              totalRounds={computerLogs.length}
+              enteredNumber={enteredNumber}
+              handleStartNewGame={() => setSelectedScreen("Game")}
+            />
           )}
         </SafeAreaView>
       </ImageBackground>

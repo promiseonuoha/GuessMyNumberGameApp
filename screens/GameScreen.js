@@ -19,7 +19,7 @@ const generateRandomNumber = (min, max, exclude) => {
   }
 };
 
-export default function GameScreen({ enteredNumber }) {
+export default function GameScreen({ enteredNumber, navigate }) {
   const initialGuess = generateRandomNumber(1, 100, enteredNumber);
   const [currentGuess, setCurrentGuess] = useState(initialGuess);
   const [computerGuesses, setComputerGuesses] = useState([]);
@@ -53,11 +53,14 @@ export default function GameScreen({ enteredNumber }) {
       return [currentGuess, ...prev];
     });
     if (currentGuess === enteredNumber) {
-      Alert.alert("Game Over!", "The computer guessed your number", [
-        { text: "Just Close It!", style: "cancel" },
-      ]);
+      navigate(computerGuesses);
     }
   }, [currentGuess]);
+
+  useEffect(() => {
+    minBoundry = 1;
+    maxBoundry = 100;
+  }, []);
 
   return (
     <View style={styles.container}>
@@ -67,7 +70,7 @@ export default function GameScreen({ enteredNumber }) {
       <Title boxStyle={styles.numberBox} textStyling={{ fontSize: 32 }}>
         {currentGuess}
       </Title>
-      <Text style={{ marginBottom: 10, color: "white" }}>Higher or Lower?</Text>
+      <Text style={styles.questionText}>Higher or Lower?</Text>
       <View style={styles.buttonBox}>
         <Button
           onClick={() => nextGuessHandler("lower")}
@@ -119,6 +122,13 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     gap: 10,
   },
+  questionText: {
+    marginBottom: 10,
+    color: "white",
+    fontFamily: "open-sans-bold",
+    fontSize: 20,
+  },
+
   scrollView: {
     width: "100%",
     marginTop: 20,
@@ -138,5 +148,6 @@ const styles = StyleSheet.create({
   },
   guessItemText: {
     color: "white",
+    fontFamily: "open-sans-regular",
   },
 });

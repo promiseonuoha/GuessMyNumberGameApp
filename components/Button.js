@@ -27,5 +27,6 @@ const styles = StyleSheet.create({
   },
   textStyle: {
     textAlign: "center",
+    fontFamily: "open-sans-regular",
   },
 });

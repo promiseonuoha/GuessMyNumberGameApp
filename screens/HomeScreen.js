@@ -75,7 +75,8 @@ const styles = StyleSheet.create({
     borderBottomColor: "white",
     color: "white",
     fontSize: 32,
-    fontWeight: "700",
+    // fontWeight: "700",
+    fontFamily: "open-sans-bold",
   },
   buttonsContainer: {
     flexDirection: "row",
