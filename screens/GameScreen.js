@@ -85,11 +85,12 @@ export default function GameScreen({ enteredNumber, navigate }) {
       </View>
 
       <FlatList
+        keyExtractor={(item) => Math.random() * item}
         style={styles.scrollView}
         data={computerGuesses}
         renderItem={(item) => {
           return (
-            <View style={styles.guessItemBox} key={Math.random() * item.item}>
+            <View style={styles.guessItemBox}>
               <Text style={styles.guessItemText}>#{item.index + 1}</Text>
               <Text style={styles.guessItemText}>{item.item}</Text>
             </View>
