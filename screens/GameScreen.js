@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { StyleSheet, Text, View, Alert, FlatList } from "react-native";
 import Title from "../components/Title";
+import ComputerLog from "../components/ComputerLog";
 import Button from "../components/Button";
 
 // Icons
@@ -90,10 +91,10 @@ export default function GameScreen({ enteredNumber, navigate }) {
         data={computerGuesses}
         renderItem={(item) => {
           return (
-            <View style={styles.guessItemBox}>
-              <Text style={styles.guessItemText}>#{item.index + 1}</Text>
-              <Text style={styles.guessItemText}>{item.item}</Text>
-            </View>
+            <ComputerLog
+              guess={item.item}
+              roundNumber={computerGuesses.length - item.index}
+            />
           );
         }}
       />
@@ -129,26 +130,10 @@ const styles = StyleSheet.create({
     fontFamily: "open-sans-bold",
     fontSize: 20,
   },
-
   scrollView: {
     width: "100%",
     marginTop: 20,
     paddingHorizontal: 30,
     flexDirection: "column",
-  },
-  guessItemBox: {
-    width: "100%",
-    height: 50,
-    backgroundColor: "#5a045a",
-    borderRadius: 30,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    paddingHorizontal: 15,
-    marginBottom: 15,
-  },
-  guessItemText: {
-    color: "white",
-    fontFamily: "open-sans-regular",
   },
 });

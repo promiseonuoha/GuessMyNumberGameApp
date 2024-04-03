@@ -53,7 +53,7 @@ export default function App() {
           )}
           {selectedScreen === "GameOver" && (
             <GameOverScreen
-              totalRounds={computerLogs.length}
+              totalRounds={computerLogs.length + 1}
               enteredNumber={enteredNumber}
               handleStartNewGame={() => setSelectedScreen("Game")}
             />
