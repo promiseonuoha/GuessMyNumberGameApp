@@ -1,5 +1,12 @@
 import { useState, useEffect } from "react";
-import { StyleSheet, Text, View, Alert, FlatList } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  Alert,
+  FlatList,
+  useWindowDimensions,
+} from "react-native";
 import Title from "../components/Title";
 import ComputerLog from "../components/ComputerLog";
 import Button from "../components/Button";
@@ -24,6 +31,7 @@ export default function GameScreen({ enteredNumber, navigate }) {
   const initialGuess = generateRandomNumber(1, 100, enteredNumber);
   const [currentGuess, setCurrentGuess] = useState(initialGuess);
   const [computerGuesses, setComputerGuesses] = useState([]);
+  const { width, height } = useWindowDimensions();
 
   const nextGuessHandler = (direction) => {
     if (
@@ -63,11 +71,8 @@ export default function GameScreen({ enteredNumber, navigate }) {
     maxBoundry = 100;
   }, []);
 
-  return (
-    <View style={styles.container}>
-      <Title boxStyle={{ marginBottom: 25, marginTop: 40 }}>
-        Oponent's Guess
-      </Title>
+  let content = (
+    <>
       <Title boxStyle={styles.numberBox} textStyling={{ fontSize: 32 }}>
         {currentGuess}
       </Title>
@@ -76,14 +81,48 @@ export default function GameScreen({ enteredNumber, navigate }) {
         <Button
           onClick={() => nextGuessHandler("lower")}
           style={styles.buttonStyle}
-          title={<Ionicons name="md-remove" size={24} />}
+          title={<Ionicons name="md-remove" size={20} />}
         />
         <Button
           onClick={() => nextGuessHandler("greater")}
           style={styles.buttonStyle}
-          title={<Ionicons name="md-add" size={24} />}
+          title={<Ionicons name="md-add" size={20} />}
         />
       </View>
+    </>
+  );
+
+  if (width > 500) {
+    content = (
+      <>
+        <View style={[styles.buttonBox, { alignItems: "center" }]}>
+          <Button
+            onClick={() => nextGuessHandler("lower")}
+            style={styles.buttonStyle}
+            title={<Ionicons name="md-remove" size={20} />}
+          />
+          <Title
+            boxStyle={[styles.numberBox, { marginBottom: 0 }]}
+            textStyling={{ fontSize: 32 }}
+          >
+            {currentGuess}
+          </Title>
+          <Button
+            onClick={() => nextGuessHandler("greater")}
+            style={styles.buttonStyle}
+            title={<Ionicons name="md-add" size={20} />}
+          />
+        </View>
+      </>
+    );
+  }
+
+  return (
+    <View style={styles.container}>
+      <Title boxStyle={{ marginBottom: 25, marginTop: 40 }}>
+        Oponent's Guess
+      </Title>
+      {content}
 
       <FlatList
         keyExtractor={(item) => Math.random() * item}
@@ -117,7 +156,6 @@ const styles = StyleSheet.create({
   buttonStyle: {
     backgroundColor: "white",
     flex: 1,
-    paddingVertical: 15,
   },
   buttonBox: {
     flexDirection: "row",

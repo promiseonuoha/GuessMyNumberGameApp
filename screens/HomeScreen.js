@@ -1,9 +1,18 @@
 import { useState } from "react";
-import { Alert, StyleSheet, TextInput, View } from "react-native";
+import {
+  Alert,
+  StyleSheet,
+  TextInput,
+  View,
+  ScrollView,
+  KeyboardAvoidingView,
+  useWindowDimensions,
+} from "react-native";
 import Button from "../components/Button";
 
 export default function HomeScreen({ navigate }) {
   const [numberValue, setNumberValue] = useState("");
+  const { height, width } = useWindowDimensions();
 
   const handleNumberInputChange = (enteredText) => {
     setNumberValue(enteredText);
@@ -26,37 +35,46 @@ export default function HomeScreen({ navigate }) {
     navigate(chosenNumber);
   };
 
+  let paddingTopValue = height < 400 ? 70 : 150;
+
   return (
-    <View style={styles.container}>
-      <View style={styles.card}>
-        <TextInput
-          onChangeText={handleNumberInputChange}
-          value={numberValue}
-          keyboardType="number-pad"
-          maxLength={2}
-          style={styles.textInput}
-        />
-        <View style={styles.buttonsContainer}>
-          <Button
-            onClick={handleReset}
-            title="Reset"
-            style={styles.buttonStyle}
-          />
-          <Button
-            onClick={handleConfirm}
-            title="Confirm"
-            style={styles.buttonStyle}
-          />
+    <ScrollView style={styles.rootScreen}>
+      <KeyboardAvoidingView style={styles.rootScreen} behavior="position">
+        <View style={[styles.container, { paddingTop: paddingTopValue }]}>
+          <View style={styles.card}>
+            <TextInput
+              onChangeText={handleNumberInputChange}
+              value={numberValue}
+              keyboardType="number-pad"
+              maxLength={2}
+              style={styles.textInput}
+            />
+            <View style={styles.buttonsContainer}>
+              <Button
+                onClick={handleReset}
+                title="Reset"
+                style={styles.buttonStyle}
+              />
+              <Button
+                onClick={handleConfirm}
+                title="Confirm"
+                style={styles.buttonStyle}
+              />
+            </View>
+          </View>
         </View>
-      </View>
-    </View>
+      </KeyboardAvoidingView>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
+  rootScreen: {
+    flex: 1,
+  },
+
   container: {
     flex: 1,
-    paddingTop: 150,
     paddingHorizontal: 20,
   },
   card: {

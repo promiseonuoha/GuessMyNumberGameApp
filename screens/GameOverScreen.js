@@ -1,4 +1,11 @@
-import { Image, StyleSheet, Text, View } from "react-native";
+import {
+  Image,
+  StyleSheet,
+  Text,
+  View,
+  useWindowDimensions,
+  ScrollView,
+} from "react-native";
 
 // Components
 import Title from "../components/Title";
@@ -9,26 +16,47 @@ export default function GameOverScreen({
   enteredNumber,
   handleStartNewGame,
 }) {
+  const { width, height } = useWindowDimensions();
+
+  let imageSize = 300;
+
+  if (width < 360) {
+    imageSize = 150;
+  }
+
+  if (height < 400) {
+    imageSize = 100;
+  }
+
+  const imageStyle = {
+    width: imageSize,
+    height: imageSize,
+    borderRadius: imageSize / 2,
+  };
+
   return (
-    <View style={styles.rootContainer}>
-      <Title>GAME OVER!</Title>
-      <View style={styles.imageContainer}>
-        <Image
-          style={styles.imageStyle}
-          source={require("../assets/images/success.png")}
+    <ScrollView style={{ flex: 1 }}>
+      <View style={styles.rootContainer}>
+        <Title>GAME OVER!</Title>
+        <View style={[styles.imageContainer, imageStyle]}>
+          <Image
+            style={styles.imageStyle}
+            source={require("../assets/images/success.png")}
+          />
+        </View>
+        <Text style={styles.text}>
+          Your Phone needed{" "}
+          <Text style={styles.textHighlight}>{totalRounds}</Text> rounds to
+          guess the number{" "}
+          <Text style={styles.textHighlight}>{enteredNumber}</Text>
+        </Text>
+        <Button
+          onClick={handleStartNewGame}
+          style={styles.buttonStyle}
+          title={"Start New Game"}
         />
       </View>
-      <Text style={styles.text}>
-        Your Phone needed{" "}
-        <Text style={styles.textHighlight}>{totalRounds}</Text> rounds to guess
-        the number <Text style={styles.textHighlight}>{enteredNumber}</Text>
-      </Text>
-      <Button
-        onClick={handleStartNewGame}
-        style={styles.buttonStyle}
-        title={"Start New Game"}
-      />
-    </View>
+    </ScrollView>
   );
 }
 
@@ -40,9 +68,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   imageContainer: {
-    width: "90%",
-    height: 300,
-    borderRadius: 150,
     overflow: "hidden",
     borderWidth: 3,
     borderColor: "white",
@@ -65,7 +90,6 @@ const styles = StyleSheet.create({
   },
   buttonStyle: {
     backgroundColor: "white",
-    paddingHorizontal: 30,
-    paddingVertical: 15,
+    width: 180,
   },
 });

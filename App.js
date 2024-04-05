@@ -1,6 +1,7 @@
 // import { StatusBar } from "expo-status-bar";
 import { useState } from "react";
 import { StyleSheet, ImageBackground, SafeAreaView } from "react-native";
+import { StatusBar } from "expo-status-bar";
 import { LinearGradient } from "expo-linear-gradient";
 import { useFonts } from "expo-font";
 // import AppLoading from "expo-app-loading";
@@ -26,41 +27,44 @@ export default function App() {
   }
 
   return (
-    <LinearGradient colors={["#5a045a", "violet"]} style={styles.container}>
-      <ImageBackground
-        style={styles.container}
-        source={require("./assets/images/background.avif")}
-        resizeMode="cover"
-        imageStyle={styles.imageStyle}
-      >
-        <SafeAreaView style={styles.container}>
-          {selectedScreen === "Home" && (
-            <HomeScreen
-              navigate={(value) => {
-                setEnteredNumber(value);
-                setSelectedScreen("Game");
-              }}
-            />
-          )}
-          {selectedScreen === "Game" && (
-            <GameScreen
-              enteredNumber={enteredNumber}
-              navigate={(logs) => {
-                setComputerLogs(logs);
-                setSelectedScreen("GameOver");
-              }}
-            />
-          )}
-          {selectedScreen === "GameOver" && (
-            <GameOverScreen
-              totalRounds={computerLogs.length + 1}
-              enteredNumber={enteredNumber}
-              handleStartNewGame={() => setSelectedScreen("Game")}
-            />
-          )}
-        </SafeAreaView>
-      </ImageBackground>
-    </LinearGradient>
+    <>
+      <StatusBar style="light" />
+      <LinearGradient colors={["#5a045a", "violet"]} style={styles.container}>
+        <ImageBackground
+          style={styles.container}
+          source={require("./assets/images/background.avif")}
+          resizeMode="cover"
+          imageStyle={styles.imageStyle}
+        >
+          <SafeAreaView style={styles.container}>
+            {selectedScreen === "Home" && (
+              <HomeScreen
+                navigate={(value) => {
+                  setEnteredNumber(value);
+                  setSelectedScreen("Game");
+                }}
+              />
+            )}
+            {selectedScreen === "Game" && (
+              <GameScreen
+                enteredNumber={enteredNumber}
+                navigate={(logs) => {
+                  setComputerLogs(logs);
+                  setSelectedScreen("GameOver");
+                }}
+              />
+            )}
+            {selectedScreen === "GameOver" && (
+              <GameOverScreen
+                totalRounds={computerLogs.length + 1}
+                enteredNumber={enteredNumber}
+                handleStartNewGame={() => setSelectedScreen("Game")}
+              />
+            )}
+          </SafeAreaView>
+        </ImageBackground>
+      </LinearGradient>
+    </>
   );
 }
 
